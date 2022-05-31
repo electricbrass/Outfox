@@ -1,15 +1,15 @@
 package com.miamc.outfox
 
-open class Chip(val onLightTeam: Boolean) {
+open class Chip(private val onLightTeam: Boolean) {
     private var inGoal = false
 
-    open fun moveChip() {
-
+    open fun findValidMove(board: Board): MutableList<Cell> {
+        return mutableListOf()
     }
 }
 
 class SuperChip(onLightTeam: Boolean) : Chip(onLightTeam) {
-    override fun moveChip() {
-
+    override fun findValidMove(board: Board): MutableList<Cell> {
+        return mutableListOf()
     }
 }
