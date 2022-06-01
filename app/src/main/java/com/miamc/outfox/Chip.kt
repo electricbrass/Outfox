@@ -11,10 +11,10 @@ open class Chip(val onLightTeam: Boolean) {
                 ((cell is GoalCell) && (cell.isLightTeam != this.onLightTeam)))
     }
 
-    open fun findValidMove(board: Board, cell: Cell): MutableList<Cell> {
+    open fun findValidMove(board: Board, containingCell: Cell): MutableList<Cell> {
         val validMoves = mutableListOf<Cell>()
-        val row = cell.row
-        val column = cell.column
+        val row = containingCell.row
+        val column = containingCell.column
         // checks valid move upwards
         for (i in row..9) {
             val cell = board.cells[i][column]
@@ -52,10 +52,10 @@ open class Chip(val onLightTeam: Boolean) {
 }
 
 class SuperChip(onLightTeam: Boolean) : Chip(onLightTeam) {
-    override fun findValidMove(board: Board, cell: Cell): MutableList<Cell> {
+    override fun findValidMove(board: Board, containingCell: Cell): MutableList<Cell> {
         val validMoves = mutableListOf<Cell>()
-        val row = cell.row
-        val column = cell.column
+        val row = containingCell.row
+        val column = containingCell.column
         // checks valid move upwards
         for (i in row..9) {
             val cell = board.cells[i][column]
