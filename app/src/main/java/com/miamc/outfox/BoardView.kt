@@ -7,6 +7,7 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import java.lang.Integer.min
 
 class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
@@ -100,8 +101,8 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         performClick()
-        val row = (event?.y?.toInt())?.div(squareSize)
-        val column = (event?.x?.toInt())?.div(squareSize)
+        val row = (event?.y?.toInt())?.div(squareSize)?.let { min(it, 9) }
+        val column = (event?.x?.toInt())?.div(squareSize)?.let { min(it, 8) }
         if (row == null || column == null) {
             return false
         }
