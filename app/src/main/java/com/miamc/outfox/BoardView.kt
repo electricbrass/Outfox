@@ -13,6 +13,7 @@ import kotlin.math.min
 class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val circleRad = 10.0F * (context.resources.displayMetrics.densityDpi / 160).toFloat()
+    private val chipRad = 21.0F * (context.resources.displayMetrics.densityDpi / 160).toFloat()
     private val blackCircleRad = 20.0F * (context.resources.displayMetrics.densityDpi / 160).toFloat()
     private val squareSize = (60 * (context.resources.displayMetrics.densityDpi / 160))
 
@@ -33,7 +34,10 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     }
 
+    // highlights selected cell
     private val selectSquare = Rect(0, 0, 0, 0)
+    // highlights valid moces
+    private val moveSquare = Rect(0, 0, 0, 0)
     private val background = Rect(0, 0, squareSize * 9, squareSize * 10)
     private val darkGoal = Rect(0, squareSize * 7, squareSize * 3, squareSize * 10)
     private val lightGoal = Rect(squareSize * 6, 0, squareSize * 9, squareSize * 3)
@@ -45,12 +49,17 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     private fun updateSelectSquare(row: Int, column: Int) {
-        selectSquare.let {
-            selectSquare.left = column * squareSize
-            selectSquare.right = column * squareSize + squareSize
-            selectSquare.top = row * squareSize
-            selectSquare.bottom = row * squareSize + squareSize
-        }
+        selectSquare.left = column * squareSize
+        selectSquare.right = column * squareSize + squareSize
+        selectSquare.top = row * squareSize
+        selectSquare.bottom = row * squareSize + squareSize
+    }
+
+    private fun updateMoveSquare(row: Int, column: Int) {
+        moveSquare.left = column * squareSize
+        moveSquare.right = column * squareSize + squareSize
+        moveSquare.top = row * squareSize
+        moveSquare.bottom = row * squareSize + squareSize
     }
 
     private fun squareToCircleCoord(coord: Int): Float {
@@ -89,12 +98,30 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                         fillPaint.color = context.getColor(R.color.light_brown)
                         drawCircle(squareToCircleCoord(j), squareToCircleCoord(i), circleRad, fillPaint)
                     }
+                    // draw chips
+                    if (board.cells[i][j].chip?.onLightTeam == true) {
+                        fillPaint.color = context.getColor(R.color.light_brown)
+                        drawCircle(squareToCircleCoord(j), squareToCircleCoord(i), chipRad, fillPaint)
+                        drawCircle(squareToCircleCoord(j), squareToCircleCoord(i), chipRad, strokePaint)
+                    }
+                    if (board.cells[i][j].chip?.onLightTeam == false) {
+                        fillPaint.color = context.getColor(R.color.dark_brown)
+                        drawCircle(squareToCircleCoord(j), squareToCircleCoord(i), chipRad, fillPaint)
+                        drawCircle(squareToCircleCoord(j), squareToCircleCoord(i), chipRad, strokePaint)
+                    }
+                    // add dot to super chips
+                    if (board.cells[i][j].chip is SuperChip) {
+                        fillPaint.color = context.getColor(R.color.black)
+                        drawCircle(squareToCircleCoord(j), squareToCircleCoord(i), circleRad, fillPaint)
+                    }
                     // if a cell has been tapped, draw a color over it
-                    if (board.cells[i][j].isSelected) {
-                        updateSelectSquare(i, j)
+                    if (board.cells[i][j] === board.selectedCell) {
                         fillPaint.setARGB(100, 0, 255, 0)
                         drawRect(selectSquare, fillPaint)
                     }
+                    // draw valid move target
+                    fillPaint.setARGB(10, 255, 0, 0)
+                    drawRect(moveSquare, fillPaint)
                 }
             }
         }
@@ -107,7 +134,14 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         if (row == null || column == null) {
             return false
         }
-        board.cells[row][column].isSelected = true
+        if (board.cells[row][column].containsChip()) {
+            updateSelectSquare(row, column)
+            board.selectedCell = board.cells[row][column]
+        }
+        val validMoves = board.cells[row][column].chip?.findValidMove(board, board.cells[row][column])
+        if (validMoves != null && validMoves.size > 0) {
+            updateMoveSquare(validMoves[0].row, validMoves[0].column)
+        }
         invalidate()
         return true
     }

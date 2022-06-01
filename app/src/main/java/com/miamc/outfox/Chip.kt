@@ -1,6 +1,6 @@
 package com.miamc.outfox
 
-open class Chip(private val onLightTeam: Boolean, var row: Int, var column: Int) {
+open class Chip(val onLightTeam: Boolean) {
     private var inGoal = false
 
     /* returns true if cell is not a possible destination for a move, either due to having a chip
@@ -11,8 +11,10 @@ open class Chip(private val onLightTeam: Boolean, var row: Int, var column: Int)
                 ((cell is GoalCell) && (cell.isLightTeam != this.onLightTeam)))
     }
 
-    open fun findValidMove(board: Board): MutableList<Cell> {
+    open fun findValidMove(board: Board, cell: Cell): MutableList<Cell> {
         val validMoves = mutableListOf<Cell>()
+        val row = cell.row
+        val column = cell.column
         // checks valid move upwards
         for (i in row..9) {
             val cell = board.cells[i][column]
@@ -49,9 +51,11 @@ open class Chip(private val onLightTeam: Boolean, var row: Int, var column: Int)
     }
 }
 
-class SuperChip(onLightTeam: Boolean, row: Int, column: Int) : Chip(onLightTeam, row, column) {
-    override fun findValidMove(board: Board): MutableList<Cell> {
+class SuperChip(onLightTeam: Boolean) : Chip(onLightTeam) {
+    override fun findValidMove(board: Board, cell: Cell): MutableList<Cell> {
         val validMoves = mutableListOf<Cell>()
+        val row = cell.row
+        val column = cell.column
         // checks valid move upwards
         for (i in row..9) {
             val cell = board.cells[i][column]
