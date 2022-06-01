@@ -47,6 +47,7 @@ open class Chip(val onLightTeam: Boolean) {
                 break
             }
         }
+        validMoves.remove(containingCell)
         return validMoves
     }
 }
@@ -88,6 +89,7 @@ class SuperChip(onLightTeam: Boolean) : Chip(onLightTeam) {
             }
             validMoves.add(board.cells[row][i])
         }
+        validMoves.remove(containingCell)
         return validMoves
     }
 }
