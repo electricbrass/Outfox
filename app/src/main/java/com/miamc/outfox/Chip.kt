@@ -27,32 +27,38 @@ open class Chip(val onLightTeam: Boolean) {
 //            }
 //        }
         // checks valid move upwards
-        for (i in (row - 1) downTo 0) {
-            val cell = board.cells[i][column]
-            if (isNotValidMove(cell)) {
-                validMoves.add(board.cells[i+1][column])
-                break
-            }
-            if (i == 0) {
-                validMoves.add(board.cells[0][column])
-            }
-        }
+//        for (i in (row - 1) downTo 0) {
+//            val cell = board.cells[i][column]
+//            if (isNotValidMove(cell)) {
+//                validMoves.add(board.cells[i+1][column])
+//                break
+//            }
+//            if (i == 0) {
+//                validMoves.add(board.cells[0][column])
+//            }
+//        }
         // checks valid moves rightwards
-//        for (i in column..8) {
+//        for (i in (column + 1)..8) {
 //            val cell = board.cells[row][i]
 //            if (isNotValidMove(cell)) {
 //                validMoves.add(board.cells[row][i-1])
 //                break
 //            }
-//        }
-        // checks valid moves leftwards
-//        for (i in column..0) {
-//            val cell = board.cells[row][i]
-//            if (isNotValidMove(cell)) {
-//                validMoves.add(board.cells[row][i+1])
-//                break
+//            if (i == 8) {
+//                validMoves.add(board.cells[row][8])
 //            }
 //        }
+        // checks valid moves leftwards
+        for (i in (column - 1) downTo 0) {
+            val cell = board.cells[row][i]
+            if (isNotValidMove(cell)) {
+                validMoves.add(board.cells[row][i+1])
+                break
+            }
+            if (i == 0) {
+                validMoves.add(board.cells[row][0])
+            }
+        }
         validMoves.remove(containingCell)
         return validMoves
     }
