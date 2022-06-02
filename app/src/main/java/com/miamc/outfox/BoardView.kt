@@ -36,7 +36,8 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     // highlights selected cell
     private val selectSquare = Rect(0, 0, 0, 0)
-    // highlights valid moces
+    // highlights valid moves
+    private var moveSquares: MutableList<Rect> = mutableListOf()
     private val moveSquare = Rect(0, 0, 0, 0)
     private val background = Rect(0, 0, squareSize * 9, squareSize * 10)
     private val darkGoal = Rect(0, squareSize * 7, squareSize * 3, squareSize * 10)
@@ -55,11 +56,8 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         selectSquare.bottom = row * squareSize + squareSize
     }
 
-    private fun updateMoveSquare(row: Int, column: Int) {
-        moveSquare.left = column * squareSize
-        moveSquare.right = column * squareSize + squareSize
-        moveSquare.top = row * squareSize
-        moveSquare.bottom = row * squareSize + squareSize
+    private fun createMoveSquare(row: Int, column: Int): Rect {
+        return Rect(column * squareSize, row * squareSize, column * squareSize + squareSize, row * squareSize + squareSize)
     }
 
     private fun squareToCircleCoord(coord: Int): Float {
@@ -121,7 +119,9 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     }
                     // draw valid move target
                     fillPaint.setARGB(10, 255, 0, 0)
-                    drawRect(moveSquare, fillPaint)
+                    for (square in moveSquares) {
+                        drawRect(square, fillPaint)
+                    }
                 }
             }
         }
@@ -145,13 +145,14 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             board.selectedCell = null
         }
         val validMoves = board.cells[row][column].chip?.findValidMove(board, board.cells[row][column])
+        moveSquares.clear()
         if (validMoves != null && validMoves.size > 0) {
-            updateMoveSquare(validMoves[0].row, validMoves[0].column)
+            for (move in validMoves) {
+                moveSquares.add(createMoveSquare(move.row, move.column))
+            }
         } else {
-            // temporary make invisible
-            updateMoveSquare(0, 0)
-            moveSquare.right = 0
-            moveSquare.bottom = 0
+            // remove squares if no valid moves
+            moveSquares.clear()
         }
         invalidate()
         return true
