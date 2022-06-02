@@ -69,8 +69,9 @@ class SuperChip(onLightTeam: Boolean) : Chip(onLightTeam) {
         val validMoves = mutableSetOf<Cell>()
         val row = containingCell.row
         val column = containingCell.column
+        // TODO change loops to while loops probably
         // checks valid move upwards
-        for (i in row..9) {
+        for (i in (row + 1)..9) {
             val cell = board.cells[i][column]
             if (isNotValidMove(cell)) {
                 break
@@ -78,7 +79,7 @@ class SuperChip(onLightTeam: Boolean) : Chip(onLightTeam) {
             validMoves.add(board.cells[i][column])
         }
         // checks valid move downwards
-        for (i in row..0) {
+        for (i in (row - 1) downTo 0) {
             val cell = board.cells[i][column]
             if (isNotValidMove(cell)) {
                 break
@@ -86,7 +87,7 @@ class SuperChip(onLightTeam: Boolean) : Chip(onLightTeam) {
             validMoves.add(board.cells[i][column])
         }
         // checks valid moves rightwards
-        for (i in column..8) {
+        for (i in (column + 1)..8) {
             val cell = board.cells[row][i]
             if (isNotValidMove(cell)) {
                 break
@@ -94,7 +95,7 @@ class SuperChip(onLightTeam: Boolean) : Chip(onLightTeam) {
             validMoves.add(board.cells[row][i])
         }
         // checks valid moves leftwards
-        for (i in column..0) {
+        for (i in (column - 1) downTo 0) {
             val cell = board.cells[row][i]
             if (isNotValidMove(cell)) {
                 break
