@@ -137,10 +137,21 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         if (board.cells[row][column].containsChip()) {
             updateSelectSquare(row, column)
             board.selectedCell = board.cells[row][column]
+        } else {
+            // temporary make invisible
+            updateSelectSquare(0, 0)
+            selectSquare.right = 0
+            selectSquare.bottom = 0
+            board.selectedCell = null
         }
         val validMoves = board.cells[row][column].chip?.findValidMove(board, board.cells[row][column])
         if (validMoves != null && validMoves.size > 0) {
             updateMoveSquare(validMoves[0].row, validMoves[0].column)
+        } else {
+            // temporary make invisible
+            updateMoveSquare(0, 0)
+            moveSquare.right = 0
+            moveSquare.bottom = 0
         }
         invalidate()
         return true

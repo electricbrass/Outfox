@@ -15,38 +15,44 @@ open class Chip(val onLightTeam: Boolean) {
         val validMoves = mutableListOf<Cell>()
         val row = containingCell.row
         val column = containingCell.column
-        // checks valid move upwards
-        for (i in row..9) {
-            val cell = board.cells[i][column]
-            if (isNotValidMove(cell)) {
-                validMoves.add(board.cells[i-1][column])
-                break
-            }
-        }
         // checks valid move downwards
-        for (i in row..0) {
+//        for (i in (row + 1)..9) {
+//            val cell = board.cells[i][column]
+//            if (isNotValidMove(cell)) {
+//                validMoves.add(board.cells[i-1][column])
+//                break
+//            }
+//            if (i == 9) {
+//                validMoves.add(board.cells[9][column])
+//            }
+//        }
+        // checks valid move upwards
+        for (i in (row - 1) downTo 0) {
             val cell = board.cells[i][column]
             if (isNotValidMove(cell)) {
                 validMoves.add(board.cells[i+1][column])
                 break
             }
+            if (i == 0) {
+                validMoves.add(board.cells[0][column])
+            }
         }
         // checks valid moves rightwards
-        for (i in column..8) {
-            val cell = board.cells[row][i]
-            if (isNotValidMove(cell)) {
-                validMoves.add(board.cells[row][i-1])
-                break
-            }
-        }
+//        for (i in column..8) {
+//            val cell = board.cells[row][i]
+//            if (isNotValidMove(cell)) {
+//                validMoves.add(board.cells[row][i-1])
+//                break
+//            }
+//        }
         // checks valid moves leftwards
-        for (i in column..0) {
-            val cell = board.cells[row][i]
-            if (isNotValidMove(cell)) {
-                validMoves.add(board.cells[row][i+1])
-                break
-            }
-        }
+//        for (i in column..0) {
+//            val cell = board.cells[row][i]
+//            if (isNotValidMove(cell)) {
+//                validMoves.add(board.cells[row][i+1])
+//                break
+//            }
+//        }
         validMoves.remove(containingCell)
         return validMoves
     }

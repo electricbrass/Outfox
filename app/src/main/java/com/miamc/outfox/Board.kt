@@ -9,10 +9,10 @@ class Board {
     init {
         cells = Array(10) { i -> // rows
             Array(9) { j -> // columns
-                if (i <= 3 && j > 6) {
+                if (i < 3 && j > 5) {
                     // make light team goal area
                     GoalCell(null, i, j, true)
-                } else if (i > 7 && j <= 3) {
+                } else if (i > 6 && j < 3) {
                     // make dark team goal area
                     GoalCell(null, i, j, false)
                 } else if (i == 4 && j == 4) {
