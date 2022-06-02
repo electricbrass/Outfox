@@ -118,7 +118,7 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                         drawRect(selectSquare, fillPaint)
                     }
                     // draw valid move target
-                    fillPaint.setARGB(10, 255, 0, 0)
+                    fillPaint.setARGB(2, 255, 0, 0)
                     for (square in moveSquares) {
                         drawRect(square, fillPaint)
                     }
