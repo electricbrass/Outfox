@@ -7,6 +7,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val board = Board()
+        val boardView: BoardView = findViewById(R.id.boardView)
     }
+
+    val board = Board()
 }

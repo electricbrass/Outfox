@@ -30,8 +30,10 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     // private val canvas: Canvas
 
-    private val board = Board().apply {
-
+    private val board = if (context is MainActivity) {
+        context.board
+    } else {
+        Board()
     }
 
     // highlights selected cell
