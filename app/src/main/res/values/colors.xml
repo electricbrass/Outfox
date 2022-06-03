@@ -10,5 +10,6 @@
     <color name="dark_brown">#754200</color>
     <color name="mid_brown">#C97C18</color>
     <color name="light_brown">#DBAC6E</color>
-    <color name="green">#1AA13E</color>
+    <color name="select_square">#00FF00</color>
+    <color name="move_square">#FF0000</color>
 </resources>

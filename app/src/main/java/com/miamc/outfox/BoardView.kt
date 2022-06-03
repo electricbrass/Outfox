@@ -116,11 +116,13 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     }
                     // if a cell has been tapped, draw a color over it
                     if (board.cells[i][j] === board.selectedCell) {
-                        fillPaint.setARGB(100, 0, 255, 0)
+                        fillPaint.color = context.getColor(R.color.select_square)
+                        fillPaint.alpha = 100
                         drawRect(selectSquare, fillPaint)
                     }
                     // draw valid move target
-                    fillPaint.setARGB(2, 255, 0, 0)
+                    fillPaint.color = context.getColor(R.color.move_square)
+                    fillPaint.alpha = 2
                     for (square in moveSquares) {
                         drawRect(square, fillPaint)
                     }
