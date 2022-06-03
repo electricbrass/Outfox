@@ -69,7 +69,7 @@ class SuperChip(onLightTeam: Boolean) : Chip(onLightTeam) {
         val validMoves = mutableSetOf<Cell>()
         val row = containingCell.row
         val column = containingCell.column
-        // TODO change loops to while loops probably
+        // TODO change loops to while loops maybe?
         // checks valid move upwards
         for (i in (row + 1)..9) {
             val cell = board.cells[i][column]

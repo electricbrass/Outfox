@@ -40,7 +40,6 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val selectSquare = Rect(0, 0, 0, 0)
     // highlights valid moves
     private var moveSquares: MutableList<Rect> = mutableListOf()
-    private val moveSquare = Rect(0, 0, 0, 0)
     private val background = Rect(0, 0, squareSize * 9, squareSize * 10)
     private val darkGoal = Rect(0, squareSize * 7, squareSize * 3, squareSize * 10)
     private val lightGoal = Rect(squareSize * 6, 0, squareSize * 9, squareSize * 3)
@@ -121,6 +120,7 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     }
                     // draw valid move target
                     fillPaint.color = context.getColor(R.color.move_square)
+
                     for (square in moveSquares) {
                         drawRect(square, fillPaint)
                     }
@@ -135,6 +135,10 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         val column = (event?.x?.toInt())?.div(squareSize)?.let { max(min(it, 8), 0) }
         if (row == null || column == null) {
             return false
+        }
+        if (board.moveChip(row, column)) {
+            invalidate()
+            return true
         }
         if (board.cells[row][column].containsChip()) {
             updateSelectSquare(row, column)

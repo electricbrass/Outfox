@@ -34,4 +34,18 @@ class Board {
             }
         }
     }
+
+    fun moveChip(row: Int, column: Int): Boolean {
+        if (selectedCell == null) {
+            return false
+        }
+        val validMoves = selectedCell?.chip?.findValidMove(this, selectedCell!!) ?: return false
+        if (validMoves.contains(cells[row][column])) {
+            cells[row][column].chip = selectedCell?.chip
+            selectedCell?.chip = null
+            selectedCell = null
+            return true
+        }
+        return false
+    }
 }
