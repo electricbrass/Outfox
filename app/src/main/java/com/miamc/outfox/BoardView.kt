@@ -12,6 +12,7 @@ import kotlin.math.min
 
 class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
+    var gameWon = false
     private val circleRad = 10.0F * (context.resources.displayMetrics.densityDpi / 160).toFloat()
     private val chipRad = 21.0F * (context.resources.displayMetrics.densityDpi / 160).toFloat()
     private val blackCircleRad = 20.0F * (context.resources.displayMetrics.densityDpi / 160).toFloat()
@@ -130,6 +131,9 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (gameWon) {
+            return false
+        }
         val row = (event?.y?.toInt())?.div(squareSize)?.let { max(min(it, 9), 0) }
         val column = (event?.x?.toInt())?.div(squareSize)?.let { max(min(it, 8), 0) }
         if (row == null || column == null) {

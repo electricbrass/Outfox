@@ -9,10 +9,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val boardView: BoardView = findViewById(R.id.boardView)
-        boardView.setOnClickListener() { this.gameWon() }
+        boardView.setOnClickListener() { this.gameWon(boardView) }
     }
 
-    private fun gameWon() {
+    private fun gameWon(boardView: BoardView) {
         if (board.gameWon()) {
             val gameStatus: TextView = findViewById(R.id.gameStatus)
             if (board.isLightTurn) {
@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 gameStatus.text = "Light Team Won"
             }
+            boardView.gameWon = true
         }
     }
 
