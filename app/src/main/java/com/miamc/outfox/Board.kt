@@ -2,6 +2,8 @@ package com.miamc.outfox
 
 class Board {
 
+    var isLightTurn = true
+
     var selectedCell: Cell? = null
 
     val cells: Array<Array<Cell>>
@@ -44,8 +46,15 @@ class Board {
             cells[row][column].chip = selectedCell?.chip
             selectedCell?.chip = null
             selectedCell = null
+            if (cells[row][column] is GoalCell) {
+                cells[row][column].chip?.inGoal = true
+            }
             return true
         }
         return false
+    }
+
+    fun selectCell(row: Int, column: Int) {
+        // todo only allow selecting cell with same color chip as turn
     }
 }

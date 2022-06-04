@@ -1,14 +1,18 @@
 package com.miamc.outfox
 
 open class Chip(val onLightTeam: Boolean) {
-    private var inGoal = false
+    var inGoal = false
 
     /* returns true if cell is not a possible destination for a move, either due to having a chip
     * already or being in the opponents goal area
     * */
     protected fun isNotValidMove(cell: Cell): Boolean {
-        return (cell.containsChip() ||
-                ((cell is GoalCell) && (cell.isLightTeam != this.onLightTeam)))
+        return if (inGoal) {
+            (cell.containsChip() || cell !is GoalCell)
+        } else {
+            (cell.containsChip() ||
+                    ((cell is GoalCell) && (cell.isLightTeam != this.onLightTeam)))
+        }
     }
 
     open fun findValidMove(board: Board, containingCell: Cell): MutableSet<Cell> {
