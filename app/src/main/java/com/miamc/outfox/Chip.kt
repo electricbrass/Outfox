@@ -1,5 +1,7 @@
 package com.miamc.outfox
 
+import kotlin.math.min
+
 open class Chip(val onLightTeam: Boolean) {
     var inGoal = false
 
@@ -105,6 +107,38 @@ class SuperChip(onLightTeam: Boolean) : Chip(onLightTeam) {
                 break
             }
             validMoves.add(board.cells[row][i])
+        }
+        // checks down and right
+        for (i in 0..(min(8 - row, 7 - column))) {
+                val cell = board.cells[row + 1 + i][column + 1 + i]
+                if (isNotValidMove(cell)) {
+                    break
+                }
+                validMoves.add(cell)
+        }
+        // checks down and left
+        for (i in 0..(min(8 - row, column - 1))) {
+            val cell = board.cells[row + 1 + i][column - 1 - i]
+            if (isNotValidMove(cell)) {
+                break
+            }
+            validMoves.add(cell)
+        }
+        // checks up and left
+        for (i in 0..(min(row - 1, column - 1))) {
+            val cell = board.cells[row - 1 - i][column - 1 - i]
+            if (isNotValidMove(cell)) {
+                break
+            }
+            validMoves.add(cell)
+        }
+        // checks up and right
+        for (i in 0..(min(row - 1, 7 - column))) {
+            val cell = board.cells[row - 1 - i][column + 1 + i]
+            if (isNotValidMove(cell)) {
+                break
+            }
+            validMoves.add(cell)
         }
         validMoves.remove(containingCell)
         return validMoves
