@@ -49,12 +49,40 @@ class Board {
             if (cells[row][column] is GoalCell) {
                 cells[row][column].chip?.inGoal = true
             }
+            isLightTurn = !isLightTurn
             return true
         }
         return false
     }
 
-    fun selectCell(row: Int, column: Int) {
-        // todo only allow selecting cell with same color chip as turn
+    fun gameWon(): Boolean {
+        if (!isLightTurn) {
+            for (i in 0..2) {
+                for (j in 6..8) {
+                    if (!cells[i][j].containsChip()) {
+                        return false
+                    }
+                }
+            }
+            return true
+        } else {
+            for (i in 7..9) {
+                for (j in 0..2) {
+                    if (!cells[i][j].containsChip()) {
+                        return false
+                    }
+                }
+            }
+            return true
+        }
+    }
+
+    fun selectCell(row: Int, column: Int): Boolean {
+        return if (cells[row][column].chip?.onLightTeam == isLightTurn) {
+            selectedCell = cells[row][column]
+            true
+        } else {
+            false
+        }
     }
 }

@@ -130,25 +130,26 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        performClick()
         val row = (event?.y?.toInt())?.div(squareSize)?.let { max(min(it, 9), 0) }
         val column = (event?.x?.toInt())?.div(squareSize)?.let { max(min(it, 8), 0) }
         if (row == null || column == null) {
             return false
         }
         if (board.moveChip(row, column)) {
+            performClick()
+            moveSquares.clear()
             invalidate()
             return true
         }
-        if (board.cells[row][column].containsChip()) {
+        if (board.selectCell(row, column)) {
             updateSelectSquare(row, column)
-            board.selectedCell = board.cells[row][column]
         } else {
             // temporary make invisible
             updateSelectSquare(0, 0)
             selectSquare.right = 0
             selectSquare.bottom = 0
             board.selectedCell = null
+            return true
         }
         val validMoves = board.cells[row][column].chip?.findValidMove(board, board.cells[row][column])
         moveSquares.clear()
