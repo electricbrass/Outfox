@@ -149,9 +149,8 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             selectSquare.right = 0
             selectSquare.bottom = 0
             board.selectedCell = null
-            return true
         }
-        val validMoves = board.cells[row][column].chip?.findValidMove(board, board.cells[row][column])
+        val validMoves = board.selectedCell?.chip?.findValidMove(board, board.cells[row][column])
         moveSquares.clear()
         if (validMoves != null && validMoves.size > 0) {
             for (move in validMoves) {
