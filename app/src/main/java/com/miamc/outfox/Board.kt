@@ -2,6 +2,9 @@ package com.miamc.outfox
 
 class Board {
 
+    val rows = 10
+    val columns = 9
+
     var isLightTurn = true
 
     var selectedCell: Cell? = null

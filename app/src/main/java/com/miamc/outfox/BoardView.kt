@@ -12,13 +12,23 @@ import kotlin.math.min
 
 class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
+    private val board = if (context is MainActivity) {
+        context.board
+    } else {
+        Board()
+    }
+
     var gameWon = false
     private val metrics = context.resources.displayMetrics
-    private val circleRad = 10.0F * (metrics.densityDpi / 160).toFloat()
-    private val chipRad = 21.0F * (metrics.densityDpi / 160).toFloat()
-    private val blackCircleRad = 20.0F * (metrics.densityDpi / 160).toFloat()
     // private val squareSize = (60 * (context.resources.displayMetrics.densityDpi / 160))
-    private val squareSize = min(metrics.heightPixels, metrics.widthPixels) / 9
+    private val squareSize = min(metrics.heightPixels, metrics.widthPixels) / board.columns
+//    private val circleRad = 10.0F * (metrics.densityDpi / 160).toFloat()
+//    private val chipRad = 21.0F * (metrics.densityDpi / 160).toFloat()
+//    private val blackCircleRad = 20.0F * (metrics.densityDpi / 160).toFloat()
+    private val circleRad = (squareSize / 6).toFloat()
+    private val blackCircleRad = circleRad * 2
+    private val chipRad = blackCircleRad // todo, make slightly larger than blackCircleRad
+
 
     private val fillPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
@@ -32,12 +42,6 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
 
     // private val canvas: Canvas
-
-    private val board = if (context is MainActivity) {
-        context.board
-    } else {
-        Board()
-    }
 
     // highlights selected cell
     private val selectSquare = Rect(0, 0, 0, 0)
