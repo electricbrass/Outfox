@@ -13,10 +13,12 @@ import kotlin.math.min
 class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     var gameWon = false
-    private val circleRad = 10.0F * (context.resources.displayMetrics.densityDpi / 160).toFloat()
-    private val chipRad = 21.0F * (context.resources.displayMetrics.densityDpi / 160).toFloat()
-    private val blackCircleRad = 20.0F * (context.resources.displayMetrics.densityDpi / 160).toFloat()
-    private val squareSize = (60 * (context.resources.displayMetrics.densityDpi / 160))
+    private val metrics = context.resources.displayMetrics
+    private val circleRad = 10.0F * (metrics.densityDpi / 160).toFloat()
+    private val chipRad = 21.0F * (metrics.densityDpi / 160).toFloat()
+    private val blackCircleRad = 20.0F * (metrics.densityDpi / 160).toFloat()
+    // private val squareSize = (60 * (context.resources.displayMetrics.densityDpi / 160))
+    private val squareSize = min(metrics.heightPixels, metrics.widthPixels) / 9
 
     private val fillPaint = Paint().apply {
         style = Paint.Style.FILL_AND_STROKE
