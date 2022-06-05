@@ -27,7 +27,7 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 //    private val blackCircleRad = 20.0F * (metrics.densityDpi / 160).toFloat()
     private val circleRad = (squareSize / 6).toFloat()
     private val blackCircleRad = circleRad * 2
-    private val chipRad = blackCircleRad // todo, make slightly larger than blackCircleRad
+    private val chipRad = blackCircleRad * 1.05F
 
 
     private val fillPaint = Paint().apply {
