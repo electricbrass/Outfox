@@ -21,13 +21,17 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     var gameWon = false
     private val metrics = context.resources.displayMetrics
     // private val squareSize = (60 * (context.resources.displayMetrics.densityDpi / 160))
-    private val squareSize = min(metrics.heightPixels, metrics.widthPixels) / board.columns
+    private var squareSize = if (metrics.heightPixels < metrics.widthPixels) {
+        metrics.heightPixels / board.rows
+    } else {
+        metrics.widthPixels / board.columns
+    }
 //    private val circleRad = 10.0F * (metrics.densityDpi / 160).toFloat()
 //    private val chipRad = 21.0F * (metrics.densityDpi / 160).toFloat()
 //    private val blackCircleRad = 20.0F * (metrics.densityDpi / 160).toFloat()
-    private val circleRad = (squareSize / 6).toFloat()
-    private val blackCircleRad = circleRad * 2
-    private val chipRad = blackCircleRad * 1.05F
+    private var circleRad = (squareSize / 6).toFloat()
+    private var blackCircleRad = circleRad * 2
+    private var chipRad = blackCircleRad * 1.05F
 
 
     private val fillPaint = Paint().apply {
@@ -78,6 +82,11 @@ class BoardView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     override fun onDraw(canvas: Canvas?) {
+        squareSize = if (metrics.heightPixels < metrics.widthPixels) {
+            metrics.heightPixels / board.rows
+        } else {
+            metrics.widthPixels / board.columns
+        }
         super.onDraw(canvas)
         canvas?.apply {
             fillPaint.color = context.getColor(R.color.mid_brown)
