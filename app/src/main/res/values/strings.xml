@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Outfox</string>
     <string name="new_game">New Game</string>
+    <string name="load_game">Load Game</string>
     <string name="game_title">Outfox</string>
     <string name="game_status" />
 </resources>
